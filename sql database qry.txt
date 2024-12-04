@@ -1,0 +1,74 @@
+CREATE TABLE Books (
+    BookID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Author VARCHAR(255) NOT NULL,
+    Genre VARCHAR(100),
+    PublishedYear YEAR,
+    CopiesAvailable INT DEFAULT 0
+);
+
+CREATE TABLE Members (
+    MemberID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    PhoneNumber VARCHAR(15),
+    Address TEXT,
+    MembershipDate DATE NOT NULL
+);
+
+CREATE TABLE BorrowedBooks (
+    BorrowID INT AUTO_INCREMENT PRIMARY KEY,
+    BookID INT NOT NULL,
+    MemberID INT NOT NULL,
+    BorrowDate DATE NOT NULL,
+    DueDate DATE NOT NULL,
+    ReturnDate DATE,
+    FOREIGN KEY (BookID) REFERENCES Books(BookID) ON DELETE CASCADE,
+    FOREIGN KEY (MemberID) REFERENCES Members(MemberID) ON DELETE CASCADE
+);
+
+CREATE TABLE Staff (
+    StaffID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    Role VARCHAR(50) NOT NULL,
+    HireDate DATE NOT NULL
+);
+
+INSERT INTO Books (Title, Author, Genre, PublishedYear, CopiesAvailable)
+VALUES
+('Noli Me Tangere', 'José Rizal', 'Historical Fiction', 1887, 10),
+('El Filibusterismo', 'José Rizal', 'Historical Fiction', 1891, 8),
+('Florante at Laura', 'Francisco Balagtas', 'Epic Poetry', 1838, 12),
+('ABNKKBSNPLAko?!', 'Bob Ong', 'Humor', 2001, 15),
+('Mga Kwento ni Lola Basyang', 'Severino Reyes', 'Children\'s Literature', 1925, 20);
+
+INSERT INTO Books (Title, Author, Genre, PublishedYear, CopiesAvailable)
+VALUES
+('Noli Me Tangere', 'José Rizal', 'Historical Fiction', 2001, 10),
+('El Filibusterismo', 'José Rizal', 'Historical Fiction', 2001, 8),
+('Florante at Laura', 'Francisco Balagtas', 'Epic Poetry', 1978, 12),
+('ABNKKBSNPLAko?!', 'Bob Ong', 'Humor', 2001, 15),
+('Mga Kwento ni Lola Basyang', 'Severino Reyes', 'Children\'s Literature', 1925, 20);
+
+INSERT INTO Members (Name, Email, PhoneNumber, Address, MembershipDate)
+VALUES
+('Juan Dela Cruz', 'juan.delacruz@example.com', '09171234567', 'Quezon City', '2023-01-15'),
+('Maria Clara Santos', 'maria.clara@example.com', '09181234567', 'Manila', '2023-02-20'),
+('Jose Rizal Bautista', 'jose.rizal@example.com', '09201234567', 'Calamba, Laguna', '2023-03-05'),
+('Luzviminda Reyes', 'luz.reyes@example.com', '09192234567', 'Davao City', '2023-04-10'),
+('Andres Bonifacio', 'andres.bonifacio@example.com', '09301234567', 'Tondo, Manila', '2023-05-01');
+
+INSERT INTO BorrowedBooks (BookID, MemberID, BorrowDate, DueDate, ReturnDate)
+VALUES
+(1, 1, '2023-11-01', '2023-11-15', NULL), -- Juan borrowed "Noli Me Tangere"
+(2, 2, '2023-10-10', '2023-10-24', '2023-10-20'), -- Maria borrowed "El Filibusterismo"
+(3, 3, '2023-09-15', '2023-09-29', NULL), -- Jose borrowed "Florante at Laura"
+(4, 4, '2023-08-01', '2023-08-15', '2023-08-12'), -- Luz borrowed "ABNKKBSNPLAko?!"
+(5, 5, '2023-07-10', '2023-07-24', NULL); -- Andres borrowed "Mga Kwento ni Lola Basyang"
+
+INSERT INTO Staff (Name, Email, Role, HireDate)
+VALUES
+('Carlos Garcia', 'carlos.garcia@example.com', 'Librarian', '2022-01-10'),
+('Gloria Macapagal', 'gloria.macapagal@example.com', 'Library Assistant', '2022-06-15'),
+('Ramon Magsaysay', 'ramon.magsaysay@example.com', 'IT Support', '2023-03-20');
